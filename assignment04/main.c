@@ -8,7 +8,7 @@
 MODULE_LICENSE("GPL");
 
 static struct usb_device_id my_usb_id_table[] = {
-	{ USB_DEVICE(0x093a, 0x2510) },
+	{ USB_DEVICE(0x80ee, 0x0021) },
 
 	{ }
 
@@ -18,13 +18,13 @@ MODULE_DEVICE_TABLE(usb, my_usb_id_table);
 
 static int my_usb_probe(struct usb_interface *interface, const struct usb_device_id *id)
 {
-	pr_info("UBS Detector: !Se ha CONECTADO el raton");
-	return 0;
+	printk(KERN_DEBUG "USB Detector: !Se ha CONECTADO el raton");
+	return -ENODEV;
 }
 
 static void my_usb_disconnect(struct usb_interface *interface)
 {
-	pr_info("USB Detector: !Se ha DESCONECTADO el raton");
+	printk(KERN_DEBUG "USB Detector: !Se ha DESCONECTADO el raton");
 }
 
 static struct usb_driver my_usb_driver = {
@@ -40,9 +40,9 @@ static int	__init usb_driver_init(void)
 
 	result = usb_register(&my_usb_driver);
 	if (result)
-		pr_info("USB Detector: Fallo el registro del driver.\n");
+		printk(KERN_DEBUG "USB Detector: Fallo el registro del driver.\n");
 	else
-		pr_info("USB Detector: Driver registrado.\n");
+		printk(KERN_DEBUG "USB Detector: Driver registrado.\n");
 	return result;
 }
 
