@@ -12,7 +12,7 @@ MODULE_DESCRIPTION("USB Keyboard Detector for Assignment 04");
 
 static struct usb_device_id my_usb_id_table[] = {
 	{
-		USB_DEVICE(0x80ee, 0x0021)
+		USB_INTERFACE_INFO(0x03, 0x00, 0x00)
 	},
 	{ }
 
@@ -22,13 +22,13 @@ MODULE_DEVICE_TABLE(usb, my_usb_id_table);
 
 static int my_usb_probe(struct usb_interface *interface, const struct usb_device_id *id)
 {
-	printk(KERN_DEBUG "USB Detector: Keyboard CONNECTED\n");
+	printk(KERN_DEBUG "USB Detector: Usb CONNECTED\n");
 	return 0;
 }
 
 static void my_usb_disconnect(struct usb_interface *interface)
 {
-	printk(KERN_DEBUG "USB Detector: Keyboard DISCONNECTED\n");
+	printk(KERN_DEBUG "USB Detector: Usb DISCONNECTED\n");
 }
 
 static struct usb_driver my_usb_driver = {
