@@ -7,7 +7,7 @@
 #include <linux/hid.h>
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Your Name");
+MODULE_AUTHOR("eandres");
 MODULE_DESCRIPTION("USB Keyboard Detector for Assignment 04");
 
 static struct usb_device_id my_usb_id_table[] = {
