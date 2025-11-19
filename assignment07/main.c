@@ -25,7 +25,7 @@ static ssize_t id_read(struct file *f, char __user *user_buf, size_t count, loff
 	return simple_read_from_buffer(user_buf, count, f_pos, login, len);
 }
 
-static ssize_t id_write(struct file *f, char __user *user_buf, size_t count, loff_t *f_pos)
+static ssize_t id_write(struct file *f, const char __user *user_buf, size_t count, loff_t *f_pos)
 {
 	char kbuf[32];
 	ssize_t copied;
@@ -61,17 +61,17 @@ static ssize_t jiffies_read(struct file *f, char __user *user_buf, size_t count,
 static ssize_t foo_read(struct file *f, char __user *user_buf, size_t count, loff_t *f_pos)
 {
 	mutex_lock(&foo_mutex);
-	ssize_t result = simple_write_from_buffer(user_buf, count, f_pos, fs, sizeof(foo_data));
+	ssize_t result = simple_read_from_buffer(user_buf, count, f_pos, foo_data, sizeof(foo_data));
 	mutex_unlock(&foo_mutex);
 	return result;
 }
 
-static ssize_t foo_write(struct file *f, char __user *user_buf, size_t count, loff_t *f_pos)
+static ssize_t foo_write(struct file *f, const char __user *user_buf, size_t count, loff_t *f_pos)
 {
 	mutex_lock(&foo_mutex);
-	ssize_t result = simple_read_from_buffer(foo_data, sizeof(foo_data) -1, f_pos, user_buf, count);
+	ssize_t result = simple_write_to_buffer(foo_data, sizeof(foo_data) -1, f_pos, user_buf, count);
 	mutex_unlock(&foo_mutex);
-	return 0;
+	return result;
 }
 
 static struct file_operations fops_id = {
@@ -93,32 +93,34 @@ static struct file_operations fops_foo = {
 
 static int	__init my_module_init(void)
 {
+	mutex_init(&foo_mutex);
+
 	dir = debugfs_create_dir("fortytwo", NULL);
 	if (IS_ERR(dir))
 	{
 		pr_info("Failure to create directory");
-		return 0;
+		return PTR_ERR(dir);
 	}
 
 	struct dentry *file_id = debugfs_create_file("id", 0666, dir, NULL, &fops_id);
 	if (IS_ERR(file_id))
 	{
 		pr_info("Failure to create file");
-		return 0;
+		return PTR_ERR(file_id);
 	}
 
 	file_id = debugfs_create_file("jiffies", 0444, dir, NULL, &fops_jiffies);
 	if (IS_ERR(file_id))
 	{
 		pr_info("Failure to create file");
-		return 0;
+		return PTR_ERR(file_id);
 	}
 
 	file_id = debugfs_create_file("foo", 0600, dir, NULL, &fops_foo);
 	if (IS_ERR(file_id))
 	{
 		pr_info("Failure to create file");
-		return 0;
+		return PTR_ERR(file_id);
 	}
 	return 0;
 }
