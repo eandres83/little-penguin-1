@@ -22,13 +22,13 @@ MODULE_DEVICE_TABLE(usb, my_usb_id_table);
 
 static int my_usb_probe(struct usb_interface *interface, const struct usb_device_id *id)
 {
-	printk(KERN_DEBUG "USB Detector: Usb CONNECTED\n");
+	pr_info("USB Detector: Usb CONNECTED\n");
 	return 0;
 }
 
 static void my_usb_disconnect(struct usb_interface *interface)
 {
-	printk(KERN_DEBUG "USB Detector: Usb DISCONNECTED\n");
+	pr_info("USB Detector: Usb DISCONNECTED\n");
 }
 
 static struct usb_driver my_usb_driver = {
@@ -44,16 +44,16 @@ static int	__init usb_driver_init(void)
 
 	result = usb_register(&my_usb_driver);
 	if (result)
-		printk(KERN_DEBUG "USB Detector: Driver registration failed. Errorr %d\n", result);
+		pr_info("USB Detector: Driver registration failed. Error %d\n", result);
 	else
-		printk(KERN_DEBUG "USB Detector: Driver registered.\n");
+		pr_info("USB Detector: Driver registered.\n");
 	return result;
 }
 
 static void	__exit usb_driver_exit(void)
 {
 	usb_deregister(&my_usb_driver);
-	printk(KERN_DEBUG "Cleaning up module.\n");
+	pr_info("Cleaning up module.\n");
 }
 
 module_init(usb_driver_init);

@@ -15,7 +15,7 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("eandres");
 MODULE_DESCRIPTION("Misc Device");
 
-static ssize_t my_device_read(struct file *file, char __user *buf, size_t len, loff_t *offset)
+static ssize_t my_read(struct file *file, char __user *buf, size_t len, loff_t *offset)
 {
 	// Check the offset: if it's not 0, we've already sent the data.
 	if (*offset > 0)
@@ -29,7 +29,7 @@ static ssize_t my_device_read(struct file *file, char __user *buf, size_t len, l
 	return MY_LOGIN_LEN;
 }
 
-static ssize_t my_device_write(struct file *file, const char __user *buf, size_t len, loff_t *offset)
+static ssize_t my_write(struct file *file, const char __user *buf, size_t len, loff_t *offset)
 {
 	// We cannot trust 'buf' directly as it's a userspace pointer.
 	// We must copy it to a trusted kernel buffer first.
@@ -54,13 +54,12 @@ static ssize_t my_device_write(struct file *file, const char __user *buf, size_t
 
 	pr_err("Incorrect login. Recived: %s", kernel_buf);
 	return -EINVAL; // Invalid value
-
 }
 
-static struct file_operations my_fops = {
+static const struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.read = my_device_read,
-	.write = my_device_write,
+	.read = my_read,
+	.write = my_write,
 };
 
 static struct miscdevice fortytwo_device = {

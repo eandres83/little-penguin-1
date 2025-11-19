@@ -13,7 +13,7 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("eandres");
 MODULE_DESCRIPTION("Debugfs");
 
-static struct dentry *dir = NULL;
+static struct dentry *dir;
 static struct mutex foo_mutex;
 static	char foo_data[4096];
 
@@ -32,7 +32,7 @@ static ssize_t id_write(struct file *f, const char __user *user_buf, size_t coun
 	char *my_login = "eandres";
 	int login_len = 8;
 
-	copied = simple_write_to_buffer(kbuf, sizeof(kbuf) -1, f_pos, user_buf, count);
+	copied = simple_write_to_buffer(kbuf, sizeof(kbuf) - 1, f_pos, user_buf, count);
 	if (copied < 0)
 		return copied;
 	kbuf[copied] = '\0';
@@ -61,32 +61,36 @@ static ssize_t jiffies_read(struct file *f, char __user *user_buf, size_t count,
 
 static ssize_t foo_read(struct file *f, char __user *user_buf, size_t count, loff_t *f_pos)
 {
+	ssize_t result;
+
 	mutex_lock(&foo_mutex);
-	ssize_t result = simple_read_from_buffer(user_buf, count, f_pos, foo_data, sizeof(foo_data));
+	result = simple_read_from_buffer(user_buf, count, f_pos, foo_data, sizeof(foo_data));
 	mutex_unlock(&foo_mutex);
 	return result;
 }
 
 static ssize_t foo_write(struct file *f, const char __user *user_buf, size_t count, loff_t *f_pos)
 {
+	ssize_t result;
+
 	mutex_lock(&foo_mutex);
-	ssize_t result = simple_write_to_buffer(foo_data, sizeof(foo_data) -1, f_pos, user_buf, count);
+	result = simple_write_to_buffer(foo_data, sizeof(foo_data) - 1, f_pos, user_buf, count);
 	mutex_unlock(&foo_mutex);
 	return result;
 }
 
-static struct file_operations fops_id = {
+static const struct file_operations fops_id = {
 	.owner = THIS_MODULE,
 	.read = id_read,
 	.write = id_write,
 };
 
-static struct file_operations fops_jiffies = {
+static const struct file_operations fops_jiffies = {
 	.owner = THIS_MODULE,
 	.read = jiffies_read,
 };
 
-static struct file_operations fops_foo = {
+static const struct file_operations fops_foo = {
 	.owner = THIS_MODULE,
 	.read = foo_read,
 	.write = foo_write,
@@ -95,33 +99,31 @@ static struct file_operations fops_foo = {
 static int	__init my_module_init(void)
 {
 	mutex_init(&foo_mutex);
+	struct dentry *file_id;
 
 	dir = debugfs_create_dir("fortytwo", NULL);
-	if (IS_ERR(dir))
-	{
+	if (IS_ERR(dir)) {
 		pr_info("Failure to create directory");
 		return PTR_ERR(dir);
 	}
 	if (dir->d_inode)
 		dir->d_inode->i_mode |= 0777;
 
-	struct dentry *file_id = debugfs_create_file("id", 0666, dir, NULL, &fops_id);
-	if (IS_ERR(file_id))
-	{
+	file_id = debugfs_create_file("id", 0666, dir, NULL, &fops_id);
+
+	if (IS_ERR(file_id)) {
 		pr_info("Failure to create file");
 		return PTR_ERR(file_id);
 	}
 
 	file_id = debugfs_create_file("jiffies", 0444, dir, NULL, &fops_jiffies);
-	if (IS_ERR(file_id))
-	{
+	if (IS_ERR(file_id)) {
 		pr_info("Failure to create file");
 		return PTR_ERR(file_id);
 	}
 
 	file_id = debugfs_create_file("foo", 0644, dir, NULL, &fops_foo);
-	if (IS_ERR(file_id))
-	{
+	if (IS_ERR(file_id)) {
 		pr_info("Failure to create file");
 		return PTR_ERR(file_id);
 	}
@@ -131,8 +133,7 @@ static int	__init my_module_init(void)
 static void	__exit my_module_exit(void)
 {
 	pr_info("Cleaning up module.\n");
-	if (dir)
-		debugfs_remove_recursive(dir);
+	debugfs_remove_recursive(dir);
 }
 
 module_init(my_module_init);
