@@ -35,6 +35,7 @@ static ssize_t id_write(struct file *f, const char __user *user_buf, size_t coun
 	copied = simple_write_to_buffer(kbuf, sizeof(kbuf) -1, f_pos, user_buf, count);
 	if (copied < 0)
 		return copied;
+	kbuf[copied] = '\0';
 
 	if (strncmp(kbuf, my_login, login_len) == 0)
 		return copied;
@@ -101,6 +102,8 @@ static int	__init my_module_init(void)
 		pr_info("Failure to create directory");
 		return PTR_ERR(dir);
 	}
+	if (dir->d_inode)
+		dir->d_inode->i_mode |= 0777;
 
 	struct dentry *file_id = debugfs_create_file("id", 0666, dir, NULL, &fops_id);
 	if (IS_ERR(file_id))
@@ -116,7 +119,7 @@ static int	__init my_module_init(void)
 		return PTR_ERR(file_id);
 	}
 
-	file_id = debugfs_create_file("foo", 0600, dir, NULL, &fops_foo);
+	file_id = debugfs_create_file("foo", 0644, dir, NULL, &fops_foo);
 	if (IS_ERR(file_id))
 	{
 		pr_info("Failure to create file");
