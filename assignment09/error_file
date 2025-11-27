@@ -1,0 +1,316 @@
+make -C /usr/src/kernel-6.16.1-eandres M=/root/little-penguin-1/assignment09 modules
+make[1]: Entering directory '/usr/src/kernel-6.16.1-eandres'
+make[2]: Entering directory '/root/little-penguin-1/assignment09'
+  CC [M]  main.o
+In file included from /usr/src/kernel-6.16.1-eandres/include/linux/list.h:5,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/wait.h:7,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/wait_bit.h:8,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/fs.h:7,
+                 from main.c:3:
+main.c: In function ‘my_show’:
+main.c:25:37: error: invalid use of undefined type ‘struct mnt_namespace’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |                                     ^~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:19:33: note: in definition of macro ‘container_of’
+   19 |         void *__mptr = (void *)(ptr);                                   \
+      |                                 ^~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:612:9: note: in expansion of macro ‘list_entry’
+  612 |         list_entry((ptr)->next, type, member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:770:20: note: in expansion of macro ‘list_first_entry’
+  770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+      |                    ^~~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+In file included from /usr/src/kernel-6.16.1-eandres/include/linux/init.h:5,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/printk.h:6,
+                 from /usr/src/kernel-6.16.1-eandres/include/asm-generic/bug.h:22,
+                 from /usr/src/kernel-6.16.1-eandres/arch/x86/include/asm/bug.h:103,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/bug.h:5,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/vfsdebug.h:5,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/fs.h:5:
+main.c:25:37: error: invalid use of undefined type ‘struct mnt_namespace’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |                                     ^~
+/usr/src/kernel-6.16.1-eandres/include/linux/build_bug.h:78:56: note: in definition of macro ‘__static_assert’
+   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+      |                                                        ^~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:9: note: in expansion of macro ‘static_assert’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |         ^~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:23: note: in expansion of macro ‘__same_type’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |                       ^~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:601:9: note: in expansion of macro ‘container_of’
+  601 |         container_of(ptr, type, member)
+      |         ^~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:612:9: note: in expansion of macro ‘list_entry’
+  612 |         list_entry((ptr)->next, type, member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:770:20: note: in expansion of macro ‘list_first_entry’
+  770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+      |                    ^~~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:54: error: invalid use of undefined type ‘struct mount’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |                                                      ^~
+/usr/src/kernel-6.16.1-eandres/include/linux/build_bug.h:78:56: note: in definition of macro ‘__static_assert’
+   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+      |                                                        ^~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:9: note: in expansion of macro ‘static_assert’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |         ^~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:23: note: in expansion of macro ‘__same_type’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |                       ^~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:601:9: note: in expansion of macro ‘container_of’
+  601 |         container_of(ptr, type, member)
+      |         ^~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:612:9: note: in expansion of macro ‘list_entry’
+  612 |         list_entry((ptr)->next, type, member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:770:20: note: in expansion of macro ‘list_first_entry’
+  770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+      |                    ^~~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+main.c:25:37: error: invalid use of undefined type ‘struct mnt_namespace’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |                                     ^~
+/usr/src/kernel-6.16.1-eandres/include/linux/build_bug.h:78:56: note: in definition of macro ‘__static_assert’
+   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+      |                                                        ^~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:9: note: in expansion of macro ‘static_assert’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |         ^~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:21:23: note: in expansion of macro ‘__same_type’
+   21 |                       __same_type(*(ptr), void),                        \
+      |                       ^~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:601:9: note: in expansion of macro ‘container_of’
+  601 |         container_of(ptr, type, member)
+      |         ^~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:612:9: note: in expansion of macro ‘list_entry’
+  612 |         list_entry((ptr)->next, type, member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:770:20: note: in expansion of macro ‘list_first_entry’
+  770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+      |                    ^~~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/compiler_types.h:503:27: error: expression in static assertion is not an integer
+  503 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/build_bug.h:78:56: note: in definition of macro ‘__static_assert’
+   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+      |                                                        ^~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:9: note: in expansion of macro ‘static_assert’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |         ^~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:23: note: in expansion of macro ‘__same_type’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |                       ^~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:601:9: note: in expansion of macro ‘container_of’
+  601 |         container_of(ptr, type, member)
+      |         ^~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:612:9: note: in expansion of macro ‘list_entry’
+  612 |         list_entry((ptr)->next, type, member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:770:20: note: in expansion of macro ‘list_first_entry’
+  770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+      |                    ^~~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+In file included from /usr/src/kernel-6.16.1-eandres/include/uapi/linux/posix_types.h:5,
+                 from /usr/src/kernel-6.16.1-eandres/include/uapi/linux/types.h:14,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/types.h:6,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/objtool_types.h:7,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/objtool.h:5,
+                 from /usr/src/kernel-6.16.1-eandres/include/linux/instrumentation.h:7,
+                 from /usr/src/kernel-6.16.1-eandres/arch/x86/include/asm/bug.h:6:
+/usr/src/kernel-6.16.1-eandres/include/linux/stddef.h:16:33: error: invalid use of undefined type ‘struct mount’
+   16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+      |                                 ^~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:23:28: note: in expansion of macro ‘offsetof’
+   23 |         ((type *)(__mptr - offsetof(type, member))); })
+      |                            ^~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:601:9: note: in expansion of macro ‘container_of’
+  601 |         container_of(ptr, type, member)
+      |         ^~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:612:9: note: in expansion of macro ‘list_entry’
+  612 |         list_entry((ptr)->next, type, member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:770:20: note: in expansion of macro ‘list_first_entry’
+  770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+      |                    ^~~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:761:26: error: invalid use of undefined type ‘struct mount’
+  761 |         list_is_head(&pos->member, (head))
+      |                          ^~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:771:15: note: in expansion of macro ‘list_entry_is_head’
+  771 |              !list_entry_is_head(pos, head, member);                    \
+      |               ^~~~~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+main.c:25:37: error: invalid use of undefined type ‘struct mnt_namespace’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |                                     ^~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:761:37: note: in definition of macro ‘list_entry_is_head’
+  761 |         list_is_head(&pos->member, (head))
+      |                                     ^~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:645:25: error: invalid use of undefined type ‘struct mount’
+  645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+      |                         ^~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:19:33: note: in definition of macro ‘container_of’
+   19 |         void *__mptr = (void *)(ptr);                                   \
+      |                                 ^~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:645:9: note: in expansion of macro ‘list_entry’
+  645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:772:20: note: in expansion of macro ‘list_next_entry’
+  772 |              pos = list_next_entry(pos, member))
+      |                    ^~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:645:25: error: invalid use of undefined type ‘struct mount’
+  645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+      |                         ^~
+/usr/src/kernel-6.16.1-eandres/include/linux/build_bug.h:78:56: note: in definition of macro ‘__static_assert’
+   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+      |                                                        ^~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:9: note: in expansion of macro ‘static_assert’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |         ^~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:23: note: in expansion of macro ‘__same_type’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |                       ^~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:601:9: note: in expansion of macro ‘container_of’
+  601 |         container_of(ptr, type, member)
+      |         ^~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:645:9: note: in expansion of macro ‘list_entry’
+  645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:772:20: note: in expansion of macro ‘list_next_entry’
+  772 |              pos = list_next_entry(pos, member))
+      |                    ^~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:54: error: invalid use of undefined type ‘struct mount’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |                                                      ^~
+/usr/src/kernel-6.16.1-eandres/include/linux/build_bug.h:78:56: note: in definition of macro ‘__static_assert’
+   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+      |                                                        ^~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:9: note: in expansion of macro ‘static_assert’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |         ^~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:23: note: in expansion of macro ‘__same_type’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |                       ^~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:601:9: note: in expansion of macro ‘container_of’
+  601 |         container_of(ptr, type, member)
+      |         ^~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:645:9: note: in expansion of macro ‘list_entry’
+  645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:772:20: note: in expansion of macro ‘list_next_entry’
+  772 |              pos = list_next_entry(pos, member))
+      |                    ^~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:645:25: error: invalid use of undefined type ‘struct mount’
+  645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+      |                         ^~
+/usr/src/kernel-6.16.1-eandres/include/linux/build_bug.h:78:56: note: in definition of macro ‘__static_assert’
+   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+      |                                                        ^~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:9: note: in expansion of macro ‘static_assert’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |         ^~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:21:23: note: in expansion of macro ‘__same_type’
+   21 |                       __same_type(*(ptr), void),                        \
+      |                       ^~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:601:9: note: in expansion of macro ‘container_of’
+  601 |         container_of(ptr, type, member)
+      |         ^~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:645:9: note: in expansion of macro ‘list_entry’
+  645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:772:20: note: in expansion of macro ‘list_next_entry’
+  772 |              pos = list_next_entry(pos, member))
+      |                    ^~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/compiler_types.h:503:27: error: expression in static assertion is not an integer
+  503 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/build_bug.h:78:56: note: in definition of macro ‘__static_assert’
+   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+      |                                                        ^~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:9: note: in expansion of macro ‘static_assert’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |         ^~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:20:23: note: in expansion of macro ‘__same_type’
+   20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |                       ^~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:601:9: note: in expansion of macro ‘container_of’
+  601 |         container_of(ptr, type, member)
+      |         ^~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:645:9: note: in expansion of macro ‘list_entry’
+  645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:772:20: note: in expansion of macro ‘list_next_entry’
+  772 |              pos = list_next_entry(pos, member))
+      |                    ^~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/stddef.h:16:33: error: invalid use of undefined type ‘struct mount’
+   16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+      |                                 ^~~~~~~~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/container_of.h:23:28: note: in expansion of macro ‘offsetof’
+   23 |         ((type *)(__mptr - offsetof(type, member))); })
+      |                            ^~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:601:9: note: in expansion of macro ‘container_of’
+  601 |         container_of(ptr, type, member)
+      |         ^~~~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:645:9: note: in expansion of macro ‘list_entry’
+  645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+      |         ^~~~~~~~~~
+/usr/src/kernel-6.16.1-eandres/include/linux/list.h:772:20: note: in expansion of macro ‘list_next_entry’
+  772 |              pos = list_next_entry(pos, member))
+      |                    ^~~~~~~~~~~~~~~
+main.c:25:9: note: in expansion of macro ‘list_for_each_entry’
+   25 |         list_for_each_entry(mnt, &ns->list, mnt_list) {
+      |         ^~~~~~~~~~~~~~~~~~~
+main.c:27:45: error: invalid use of undefined type ‘struct mount’
+   27 |                 seq_printf(m, "%-20s\t", mnt->mnt_devname ? mnt->mnt_davname : "none");
+      |                                             ^~
+main.c:27:64: error: invalid use of undefined type ‘struct mount’
+   27 |                 seq_printf(m, "%-20s\t", mnt->mnt_devname ? mnt->mnt_davname : "none");
+      |                                                                ^~
+main.c:28:33: error: invalid use of undefined type ‘struct mount’
+   28 |                 seq_path(m, &mnt->mnt.mnt_root->d_path, "\n");
+      |                                 ^~
+make[4]: *** [/usr/src/kernel-6.16.1-eandres/scripts/Makefile.build:287: main.o] Error 1
+make[3]: *** [/usr/src/kernel-6.16.1-eandres/Makefile:2003: .] Error 2
+make[2]: *** [/usr/src/kernel-6.16.1-eandres/Makefile:248: __sub-make] Error 2
+make[2]: Leaving directory '/root/little-penguin-1/assignment09'
+make[1]: *** [Makefile:248: __sub-make] Error 2
+make[1]: Leaving directory '/usr/src/kernel-6.16.1-eandres'
+make: *** [Makefile:6: all] Error 2
