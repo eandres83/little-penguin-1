@@ -15,7 +15,7 @@ MODULE_DESCRIPTION("Debugfs");
 
 static struct dentry *dir;
 static struct mutex foo_mutex;
-static	char foo_data[4096];
+static	char foo_data[PAGE_SIZE];
 
 static ssize_t id_read(struct file *f, char __user *user_buf, size_t count, loff_t *f_pos)
 {

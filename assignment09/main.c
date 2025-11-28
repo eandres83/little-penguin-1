@@ -25,7 +25,10 @@ static int my_show(struct seq_file *m, void *v)
 
 	list_for_each_entry(mnt, &current->nsproxy->mnt_ns->list, mnt_list) {
 		p = dentry_path_raw(mnt->mnt_mountpoint, buf, sizeof(buf));
-		seq_printf(m, "%-15s\t%s\n", mnt->mnt_devname ? mnt->mnt_devname : "none", p);
+		char *devname = "none";
+		if (mnt->mnt_mountpoint && mnt->mnt_mountpoint->d_sb)
+			devname = mnt->mnt_mountpoint->d_sb->s_id;
+		seq_printf(m, "%-15s\t%s\n", devname, p);
 	}
 
 	return (0);
