@@ -2,11 +2,16 @@
 
 #include <linux/module.h>
 #include <linux/fs.h>
+#include <linux/init.h>
+#include <linux/kernel.h>
 #include <linux/proc_fs.h>
 #include <linux/seq_file.h>
 #include <linux/nsproxy.h>
 #include <linux/ns_common.h>
-#include <../fs/mount.h>
+#include <linux/path.h>
+#include <linux/sched.h>
+#include <linux/list.h>
+#include "/usr/src/kernel-6.16.1-eandres/fs/mount.h"
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("eandres");
@@ -20,7 +25,7 @@ static int my_show(struct seq_file *m, void *v)
 
 	list_for_each_entry(mnt, &current->nsproxy->mnt_ns->list, mnt_list) {
 		p = dentry_path_raw(mnt->mnt_mountpoint, buf, sizeof(buf));
-		seq_printf(m, "%-15%s\t", mnt->mnt_devname, p);
+		seq_printf(m, "%-15s\t%s\n", mnt->mnt_devname ? mnt->mnt_devname : "none", p);
 	}
 
 	return (0);
@@ -40,13 +45,22 @@ static const struct proc_ops mymounts_fops = {
 
 static int __init proc_init(void)
 {
-	proc_create("mymounts", 0666, NULL, &mymounts_fops);
+	struct proc_dir_entry *mymounts;
+
+	mymounts = proc_create("mymounts", 0666, NULL, &mymounts_fops);
+	if (!mymounts)
+	{
+		pr_info("Error when creatin the proc device.\n");
+		return -ENOMEM;
+	}
+	pr_info("Proc device created.\n");
 	return (0);
 }
 
 static void __exit proc_exit(void)
 {
 	remove_proc_entry("mymounts", NULL);
+	pr_info("Cleaning up the proc modules.\n");
 }
 
 module_init(proc_init);
