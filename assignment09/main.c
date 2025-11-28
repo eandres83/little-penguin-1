@@ -11,7 +11,54 @@
 #include <linux/path.h>
 #include <linux/sched.h>
 #include <linux/list.h>
-#include "/usr/src/kernel-6.16.1-eandres/fs/mount.h"
+
+struct mnt_namespace {
+	atomic_t				count;
+	struct ns_common		ns;
+	struct mount			*root;
+	struct list_head		list; // <--- El campo que buscabas
+	struct user_namespace   *user_ns;
+	struct ucounts		  *ucounts;
+	u64					 seq;
+};
+
+/* * Definimos struct mount. 
+ * IMPORTANTE: Esta estructura es GIGANTE. Solo definimos el principio 
+ * para acceder a mnt_mountpoint y mnt_list.
+ * Para acceder a mnt_devname, necesitamos trucos o la struct completa.
+ * Esta versión simplificada suele funcionar para los primeros campos.
+ */
+struct mount {
+	struct hlist_node mnt_hash;
+	struct mount *mnt_parent;
+	struct dentry *mnt_mountpoint;
+	struct mount *mnt_master;
+	struct mount *mnt_slave;
+	struct mount *mnt_share;
+	struct list_head mnt_slave_list;
+	struct list_head mnt_share_list;
+	struct list_head mnt_expire;
+	struct list_head mnt_share;
+	struct list_head mnt_list;
+	struct list_head mnt_expire_list;
+	struct list_head mnt_share_list;
+	struct list_head mnt_slave_list;
+	struct list_head mnt_list_all;
+	struct mount *mnt_ex_mountpoint;
+	struct fs_struct *mnt_fs;
+	/* * OJO: mnt_devname suele estar MUY abajo en la estructura. 
+	 * Acceder a él directamente con una estructura incompleta causará SEGFAULT.
+	 * Para este ejercicio, intenta acceder a él a través del superbloque si es posible,
+	 * o usa esta definición extendida "a ojo":
+	 */
+	 int mnt_id;
+	 int mnt_group_id;
+	 int mnt_expiry_mark;
+	 int mnt_flags;
+	 /* ... mucho relleno aquí ... */
+	 /* Si falla, borra el acceso a mnt_devname en tu código */
+	 const char *mnt_devname; 
+};
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("eandres");
