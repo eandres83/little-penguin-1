@@ -1,4 +1,4 @@
-KERNEL_DIR ?= /lib/modules/$(shell uname -r)/build
+KERNEL_DIR ?= /usr/src/kernel-6.16.1-eandres
 
 obj-m := hola.o
 
