@@ -14,47 +14,44 @@
 
 **Little Penguin** is a series of advanced kernel programming assignments designed to bridge the gap between user-space coding and **Kernel-space engineering**. Inspired by the *Eudyptula Challenge*, this project requires writing robust, compliant code that runs directly in ring 0.
 
-Unlike standard application development, mistakes here mean system crashes (kernel panics). This project demonstrates proficiency in **Loadable Kernel Modules (LKM)**, **Device Drivers**, and **Kernel Internals**.
-
-### 🎯 Key Engineering Goals
-- **Kernel Compilation:** Building custom kernels from Linus Torvalds' mainline tree and `linux-next` branches.
-- **Device Drivers:** Implementing a **Misc Character Device** (`/dev/fortytwo`) with custom read/write handlers.
-- **Hardware Interaction:** Creating modules that trigger automatically via **USB Hotplug** events (e.g., detecting a keyboard insertion).
-- **Kernel Interfaces:** Exposing kernel data to user-space via **debugfs** and **procfs**.
-- **Concurrency:** Managing `jiffies` timers and implementing proper locking mechanisms for thread safety.
+Unlike standard application development, mistakes here mean system crashes (kernel panics). This project demonstrates proficiency in **Loadable Kernel Modules (LKM)**, **Device Drivers**, **Concurrency**, and **Internal Kernel Structures**.
 
 ---
 
-## 🛠️ Technical Modules Implemented
+## 📚 Technical Journey & Modules
 
-### 1. The Character Device Driver
-Implemented a "Misc Device" driver that registers dynamically in `/dev`.
-* **Functionality:** It validates user input against a stored internal value (login) and handles error codes correctly.
-* **Tech Stack:** `struct file_operations`, `misc_register`, `copy_to_user`, `copy_from_user`.
+This repository documents the progression from a basic module to complex interaction with kernel internals:
 
-### 2. USB Hotplugging
-A module designed to interact with the hardware subsystem.
-* **Logic:** The module uses the device table ID to automatically load itself when a specific piece of hardware (USB Keyboard) is plugged into the machine.
-* **Tools:** `MODULE_DEVICE_TABLE`, `usb_device_id`.
+### 🔹 Core Fundamentals
+* **Assignment 01 (Hello World):** Building a basic LKM, understanding `module_init`/`module_exit` macros and the kernel build system (`Kbuild`).
+* **Assignment 02 (Kernel Build):** Compiling a custom kernel from source. Created a git patch to modify the `EXTRAVERSION` in the Makefile, understanding the kernel release cycle.
+* **Assignment 03 (Coding Style):** Refactoring legacy code to strictly adhere to the **Linux Kernel Coding Style** (checked via `scripts/checkpatch.pl`).
 
-### 3. Debugfs & Concurrency
-Created a debugging interface at `/sys/kernel/debug/fortytwo/` to monitor system internals.
-* **Virtual Files created:**
-    * `id`: Read/Write access to internal variables.
-    * `jiffies`: Read-only access to the system timer (uptime tracking).
-    * `foo`: A root-only writeable buffer protected by **mutex/spinlocks** to prevent race conditions during concurrent writes.
+### 🔹 Device Drivers & Hardware
+* **Assignment 04 (USB Hotplugging):** Implemented a driver that automatically loads when a specific USB device is plugged in.
+    * *Tech:* `MODULE_DEVICE_TABLE`, `usb_device_id`, and udev rules.
+* **Assignment 05 (Misc Character Driver):** Created a character device `/dev/fortytwo`.
+    * *Challenge:* Safely transferring data between User Space and Kernel Space using `copy_to_user` / `copy_from_user` to validate credentials (login check).
 
-### 4. Mount Point Walker
-A module that traverses the kernel's internal linked lists to display all mounted filesystems, exposed via `/proc/mymounts`.
-* **Challenge:** Navigating internal kernel structures safely to list mount points matching the behavior of `mount`.
+### 🔹 Internals & Concurrency
+* **Assignment 07 (Debugfs & Locking):** Exposed internal kernel state via `/sys/kernel/debug/fortytwo/`.
+    * *Jiffies:* Reading the system timer.
+    * *Concurrency:* Implemented **Mutex Locking** (`mutex_lock`/`mutex_unlock`) to prevent race conditions when writing to a shared buffer from multiple threads.
+* **Assignment 08 (Code Auditing):** Fixed a broken, messy module. Solved memory leaks (`kfree` missing), race conditions, and style violations.
+
+### 🔹 Advanced Filesystem Traversal
+* **Assignment 09 (Procfs & VFS):** The most complex module. It creates `/proc/mymounts` to list all mount points in the system.
+    * *Internals:* Manually traversing the kernel's `struct mount` linked lists via `current->nsproxy->mnt_ns->root`.
+    * *VFS:* Understanding `dentry`, `super_block`, and `vfsmount` structures to resolve paths efficiently.
 
 ---
 
 ## 🏗️ Workflow & Coding Standards
 
 The Linux Kernel has one of the strictest coding standards in the world.
-* **Checkpatch Compliant:** All code passed the `scripts/checkpatch.pl` script to ensure compliance with the official **Linux Kernel Coding Style**.
-* **Patch Submission:** Learned to create professional git patches for submitting changes to the Makefile (modifying `EXTRAVERSION`), simulating real-world contribution workflows.
+* **Checkpatch Compliant:** All code passed the `scripts/checkpatch.pl` script.
+* **Memory Safety:** Strict resource management (no memory leaks allowed in kernel space).
+* **Patch Submission:** Learned to create professional git patches for submitting changes, simulating real-world contribution workflows.
 
 ---
 
@@ -66,12 +63,12 @@ The Linux Kernel has one of the strictest coding standards in the world.
 * Kernel headers installed.
 
 ### Build and Load a Module
-```bash
+~~~bash
 # Clone the repository
-git clone [https://github.com/eandres83/little-penguin-1.git](https://github.com/eandres83/little-penguin-1.git)
+git clone https://github.com/eandres83/little-penguin-1.git
 
-# Enter a specific assignment (e.g., Assignment 05 - Misc Driver)
-cd assignment_05
+# Enter a specific assignment (e.g., Assignment 09 - Procfs)
+cd assignment_09
 
 # Compile
 make
@@ -79,12 +76,15 @@ make
 # Load the module into the Kernel
 sudo insmod main.ko
 
+# Interact with the module
+cat /proc/mymounts
+
 # Check the Kernel Ring Buffer for logs
 dmesg | tail
 
-# Interact with the device
-echo "login" > /dev/fortytwo
-cat /dev/fortytwo
-
 # Unload
 sudo rmmod main
+~~~
+
+---
+*Developed by Eleder Andres. Based on the Eudyptula Challenge structure.*
